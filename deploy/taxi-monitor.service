@@ -1,0 +1,24 @@
+[Unit]
+Description=Taxi Monitor userbot (Telegram account, order watcher)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/taxi-monitor
+EnvironmentFile=/opt/taxi-monitor/.env
+ExecStart=/opt/taxi-monitor/.venv/bin/python /opt/taxi-monitor/run.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/var/log/taxi-monitor.log
+StandardError=append:/var/log/taxi-monitor.log
+
+# безопасность
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/taxi-monitor /var/log
+
+[Install]
+WantedBy=multi-user.target
